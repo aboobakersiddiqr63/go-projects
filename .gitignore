@@ -1,0 +1,8 @@
+# Compiled binary
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Dependency directories
+vendor/
