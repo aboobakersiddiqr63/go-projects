@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 )
 
 // func main() {
@@ -263,39 +264,256 @@ import (
 // }
 
 // loops
+// func main() {
+// 	fmt.Println("Welcome to loops in golang")
+
+// 	days := []string{"Sunday", "Monday", "Tuesday"}
+// 	fmt.Println(days)
+
+// 	//Normal for loops
+// 	// for i := 0; i < len(days); i++ {
+// 	// 	fmt.Println(days[i])
+// 	// }
+
+// 	//range loop
+// 	// for i := range days {
+// 	// 	fmt.Println(days[i])
+// 	// }
+
+// 	//foreach type
+// 	// for index, day := range days {
+// 	// 	fmt.Printf("The index is %v and value is is %v\n", index, day)
+// 	// }
+
+// 	// do while type
+// 	rogueValue := 1
+// 	for rogueValue < 10 {
+// 		if rogueValue == 5 {
+// 			goto gotos
+// 		}
+// 		fmt.Println("Value is:", rogueValue)
+// 		rogueValue++
+// 	}
+
+// 	// go-to
+// gotos:
+// 	fmt.Println("Hello from go-to")
+// }
+
+// functions
+// func main() {
+
+// 	fmt.Println("Hello Function in Go")
+
+// 	resp := greeter()
+
+// 	calcResult := SimpleCalculator(2, 4)
+
+// 	proCalcultor(1, 2, 3, 4, 5)
+
+// 	response, respStr := proCalcultorReturn(1, 2, 3, 4, 5)
+
+// 	fmt.Println(respStr, ":", response)
+
+// 	fmt.Println("Response from greeter method:", resp)
+
+// 	fmt.Println("Response from SimpleCalculator method:", calcResult)
+
+// }
+
+// func greeter() string {
+// 	greeter := "Hello from Greeter"
+// 	return greeter
+// }
+
+// func SimpleCalculator(num1 int, num2 int) int {
+// 	return num1 + num2
+// }
+
+// func proCalcultor(values ...int) {
+// 	total := 0
+
+// 	for _, value := range values {
+// 		total += value
+// 	}
+// 	fmt.Println("Total value of all the values:", total)
+// }
+
+// func proCalcultorReturn(values ...int) (int, string) {
+// 	total := 0
+
+// 	for _, value := range values {
+// 		total += value
+// 	}
+// 	return total, "Response from proCalculator"
+// }
+
+// Methods
+// func main() {
+
+// 	fmt.Println("Hello Method from Go")
+// 	carDetail := Cars{"Honda", 2000, 1000, true}
+// 	Cars.GetCarDetails(Cars{"Honda", 2000, 1000, true}, 2000)
+// 	CarDetailsFunc(carDetail)
+// }
+
+// type Cars struct {
+// 	Model       string
+// 	Year        int
+// 	HP          int
+// 	IsAvailable bool
+// }
+
+// func (cars Cars) GetCarDetails(taxes int) {
+// 	fmt.Println("Is Car available:", cars.IsAvailable)
+// 	fmt.Println("Car tax:", taxes)
+// 	cars.GetCarHP()
+// }
+
+// func (cars Cars) GetCarHP() {
+// 	fmt.Println("The Cars HP is:", cars.HP)
+// }
+
+// func CarDetailsFunc(cars Cars) {
+// 	fmt.Println("Is Car available from CarDetailsFunc:", cars.IsAvailable)
+// }
+
+// Defer Statement
+// func main() {
+
+// 	fmt.Println("Hello from defer Statements ")
+// 	DeferFunc()
+
+// }
+
+// func DeferFunc() {
+// 	// defer fmt.Println("Hello1")
+// 	// defer fmt.Println("Hello2")
+
+// 	// fmt.Println("World")
+// 	//The data will not be printed directly where the resp data will be add to the stack and then printed finally
+// 	for i := 0; i <= 5; i++ {
+// 		defer fmt.Println("Hello", i)
+// 	}
+// }
+
+// files-Handling
+// func main() {
+
+// 	fmt.Println("Hello file handling")
+
+// 	filePath := "./file-handler.txt"
+// 	CreateFile(filePath)
+// 	ReadFromFile(filePath)
+// }
+
+// func CreateFile(filePath string) {
+// 	content := "Hello World: I wanted this file to go into a file"
+
+// 	file, err := os.Create(filePath)
+
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	fileLen, errFileCreation := io.WriteString(file, content)
+
+// 	if errFileCreation != nil {
+// 		panic(err)
+// 	}
+// 	fmt.Println("Length of the file is:", fileLen)
+// 	defer file.Close()
+// }
+
+// func ReadFromFile(filePath string) {
+// 	contentByte, errBytes := os.ReadFile(filePath)
+
+// 	if errBytes != nil {
+// 		panic(errBytes)
+// 	}
+
+// 	fmt.Println("Content from the file in Bytes: \n", contentByte)
+
+// 	fmt.Println("Content from the file: \n", string(contentByte))
+
+// }
+
+// web-request
+// const url = "https://lco.dev"
+
+// func main() {
+// 	fmt.Println("LCO Web Request")
+
+// 	response, err := http.Get(url)
+
+// 	ExceptionHandler(err)
+
+// 	if response.StatusCode == 200 {
+// 		//fmt.Printf("Response is of Type %T\n", response)
+// 		defer response.Body.Close()
+
+// 		contentBytes, errBytes := io.ReadAll(response.Body)
+
+// 		ExceptionHandler(errBytes)
+
+// 		fmt.Println("Response from the Endpoint is:\n", string(contentBytes))
+// 	}
+// }
+
+// func ExceptionHandler(err error) {
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// }
+
+// handling-URL
+
+const myurl string = "https://lco.dev:3000/learn?coursename=reactjs&courseid=25"
 
 func main() {
-	fmt.Println("Welcome to loops in golang")
 
-	days := []string{"Sunday", "Monday", "Tuesday"}
-	fmt.Println(days)
+	fmt.Println("Hello from handling-URL")
 
-	//Normal for loops
-	// for i := 0; i < len(days); i++ {
-	// 	fmt.Println(days[i])
-	// }
+	ExtractingDataFromURL(myurl)
 
-	//range loop
-	// for i := range days {
-	// 	fmt.Println(days[i])
-	// }
+	CreatingURLFromData()
 
-	//foreach type
-	// for index, day := range days {
-	// 	fmt.Printf("The index is %v and value is is %v\n", index, day)
-	// }
+}
 
-	// do while type
-	rogueValue := 1
-	for rogueValue < 10 {
-		if rogueValue == 5 {
-			goto gotos
-		}
-		fmt.Println("Value is:", rogueValue)
-		rogueValue++
+func ExtractingDataFromURL(myurl string) {
+
+	fmt.Println(myurl)
+
+	response, err := url.Parse(myurl)
+
+	ExceptionHandler(err)
+
+	// fmt.Println(response.RawQuery)
+
+	qParams := response.Query()
+
+	for key, val := range qParams {
+		fmt.Printf("key: %v, Value: %v\n", key, val[0])
+
+	}
+}
+
+func CreatingURLFromData() {
+
+	partsofURL := &url.URL{
+		Scheme:  "https",
+		Host:    "lco.dev",
+		Path:    "/players",
+		RawPath: "player=khabib",
 	}
 
-	// go-to
-gotos:
-	fmt.Println("Hello from go-to")
+	playerURL := partsofURL.String()
+
+	fmt.Println("The Player URL is:", playerURL)
+}
+
+func ExceptionHandler(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
