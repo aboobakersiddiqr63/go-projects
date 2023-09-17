@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -35,14 +36,36 @@ func (p *Player) IsEmpty() bool {
 }
 
 func main() {
-	players = append(players, Player{
+	fmt.Println("API - Section")
+
+	r := mux.NewRouter()
+
+	player1 := Player{
 		PlayerId: "1",
 		Name:     "Ronaldo",
 		Age:      37,
 		Club:     &Club{ClubName: "Soccer Club", Website: "http://soccerclub.com"},
-	})
+	}
 
-	// Print the players
+	player2 := Player{
+		PlayerId: "2",
+		Name:     "Salah",
+		Age:      37,
+		Club:     &Club{ClubName: "Liverpool", Website: "http://liverpool.com"},
+	}
+
+	players = append(players, player1, player2)
+
+	//routing
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/players", GetAllPlayers).Methods("GET")
+	r.HandleFunc("/player/{id}", GetOnePlayer).Methods("GET")
+	r.HandleFunc("/player", createAPlayer).Methods("POST")
+	r.HandleFunc("/player/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/player/{id}", DeleteOneCourse).Methods("DELETE")
+
+	//listen to a port
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
 
 //controllers - file
@@ -120,10 +143,26 @@ func updateOneCourse(w http.ResponseWriter, r *http.Request) {
 		if player.PlayerId == params["id"] {
 			players = append(players[:index], players[index+1:]...)
 			player.PlayerId = params["id"]
-			_ = json.NewDecoder(r.Body).Decode(&l)
+			_ = json.NewDecoder(r.Body).Decode(&player)
 			players = append(players, player)
 			json.NewEncoder(w).Encode(player)
 		}
 	}
+}
 
+func DeleteOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Delete A Course")
+	w.Header().Set("Content-Type", "application/json")
+
+	params := mux.Vars(r)
+
+	//loop, id ,remove, add my ID
+	for index, player := range players {
+		if player.PlayerId == params["id"] {
+			players = append(players[:index], players[index+1:]...)
+			message := fmt.Sprintln("The Player has been removed:", player.PlayerId)
+			json.NewEncoder(w).Encode(message)
+			break
+		}
+	}
 }
